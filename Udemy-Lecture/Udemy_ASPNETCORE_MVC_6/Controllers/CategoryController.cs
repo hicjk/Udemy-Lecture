@@ -40,6 +40,12 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category model)
         {
+            //Custom Validation
+            if(model.Name.Equals(model.DisplayOrder.ToString()))
+            {
+                ModelState.AddModelError(nameof(model.Name), "The DisplayOrder cannot exactly match the Name.");
+            }
+
             //Server Side Validation
             if(!ModelState.IsValid)
             {
