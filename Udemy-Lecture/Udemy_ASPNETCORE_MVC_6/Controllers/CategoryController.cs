@@ -30,7 +30,7 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
         }
 
         // GET: HomeController1/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -38,16 +38,17 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
         // POST: HomeController1/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(Category model)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            if(!ModelState.IsValid)
             {
                 return View();
             }
+
+            _db.Categories.Add(model);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: HomeController1/Edit/5
