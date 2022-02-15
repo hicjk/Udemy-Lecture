@@ -40,6 +40,7 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category model)
         {
+            //Server Side Validation
             if(!ModelState.IsValid)
             {
                 return View();
