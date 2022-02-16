@@ -59,24 +59,44 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
         }
 
         // GET: HomeController1/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var categoryFromDb = await _db.Categories.FindAsync(id);
+
+            if(categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
         }
 
         // POST: HomeController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(Category model)
         {
-            try
+            //Custom Validation
+            if(model.Name.Equals(model.DisplayOrder.ToString()))
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(nameof(model.Name), "The DisplayOrder cannot exactly match the Name.");
             }
-            catch
+
+            //Server Side Validation
+            if(!ModelState.IsValid)
             {
                 return View();
             }
+
+            _db.Categories.Update(model);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: HomeController1/Delete/5
