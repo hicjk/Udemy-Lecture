@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Udemy_ASPNETCORE_MVC_6.Data;
+using Udemy_ASPNETCORE_MVC_6.DataAccess;
 using Udemy_ASPNETCORE_MVC_6.Models;
 
 namespace Udemy_ASPNETCORE_MVC_6.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -55,6 +55,8 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
             _db.Categories.Add(model);
             await _db.SaveChangesAsync();
 
+            TempData["success"] = "Category Created Successfully";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -96,28 +98,48 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
             _db.Categories.Update(model);
             await _db.SaveChangesAsync();
 
+            TempData["success"] = "Category Updated Successfully";
+
             return RedirectToAction(nameof(Index));
         }
 
         // GET: HomeController1/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            if(id == 0)
+            {
+                return NotFound();
+            }
+
+            var categoryFromDb = await _db.Categories.FindAsync(id);
+
+            if(categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
         }
 
         // POST: HomeController1/Delete/5
         [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeletePost(int id)
         {
-            try
+            var model = await _db.Categories.FindAsync(id);
+
+            if(model is null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
-            {
-                return View();
-            }
+
+            _db.Categories.Remove(model);
+            await _db.SaveChangesAsync();
+
+            TempData["success"] = "Category Deleted Successfully";
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

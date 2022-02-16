@@ -22,4 +22,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Udemy_ASPNETCORE_MVC_6.DataAccess\Udemy_ASPNETCORE_MVC_6.DataAccess.csproj" />
+    <ProjectReference Include="..\Udemy_ASPNETCORE_MVC_6.Models\Udemy_ASPNETCORE_MVC_6.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\Category\" />
+    <Folder Include="Views\Home\" />
+  </ItemGroup>
+
 </Project>

@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Udemy_ASPNETCORE_MVC_6.Data;
+using Udemy_ASPNETCORE_MVC_6.DataAccess;
 
 #nullable disable
 
-namespace Udemy_ASPNETCORE_MVC_6.Migrations
+namespace Udemy_ASPNETCORE_MVC_6.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220214142910_AddCategory")]
-    partial class AddCategory
+    [Migration("20220216115955_AddCoverTypeToDb")]
+    partial class AddCoverTypeToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,24 @@ namespace Udemy_ASPNETCORE_MVC_6.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Udemy_ASPNETCORE_MVC_6.Models.CoverType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Covertypes");
                 });
 #pragma warning restore 612, 618
         }

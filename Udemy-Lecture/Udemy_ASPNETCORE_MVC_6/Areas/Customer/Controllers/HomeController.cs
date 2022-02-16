@@ -4,6 +4,7 @@ using Udemy_ASPNETCORE_MVC_6.Models;
 
 namespace Udemy_ASPNETCORE_MVC_6.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

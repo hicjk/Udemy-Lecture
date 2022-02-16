@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Udemy_ASPNETCORE_MVC_6.Data;
+using Udemy_ASPNETCORE_MVC_6.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
