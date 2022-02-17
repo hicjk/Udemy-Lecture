@@ -2,6 +2,7 @@
 
 <form method="post" asp-action="Upsert" enctype="multipart/form-data">
     <div class="border p-3 mt-4 row">
+        <input asp-for="Product.Id" hidden />
         <div class="row pb-2">
             <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
             <hr />
@@ -48,7 +49,7 @@
         </div>
         <div class="mb-3">
             <label asp-for="Product.ImageUrl"></label>
-            <input id="uploadBox" type="file" class="form-control" />
+            <input id="uploadBox" type="file" name="file" class="form-control" />
         </div>
         <div class="mb-3 col-6">
             <label asp-for="Product.CategoryId"></label>
