@@ -1,7 +1,7 @@
 ﻿let dataTable;
 
 $(document).ready(function () {
-    $("#tblData").dataTable({
+    $("#tblData").DataTable({
         "ajax": {
             "url": "/Admin/Product/GetAll"
         },

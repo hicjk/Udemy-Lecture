@@ -123,7 +123,7 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
 
             if(model.ImageUrl is not null)
             {
-                var oldImagePath = Path.Combine(_hostEnvironmemt.WebRootPath, model.ImageUrl.TrimStart('\\'));
+                var oldImagePath = $"{_hostEnvironmemt.WebRootPath}{model.ImageUrl}";
 
                 if(System.IO.File.Exists(oldImagePath))
                 {
