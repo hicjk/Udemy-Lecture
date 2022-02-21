@@ -18,10 +18,9 @@ $(document).ready(function () {
                         <div class="w-75 btn-group" role="group">
                             <a href="/Admin/Product/Upsert?id=${data}"
                             class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
-                            <a 
+                            <a onclick=Delete('/Admin/Product/Delete/${data}')
                             class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i>Delete</a>
                         </div>
-
                         `
                 },
                 "width": "15%"
@@ -29,3 +28,22 @@ $(document).ready(function () {
         ]
     });
 });
+
+function Delete(url) {
+
+    let isDelete = confirm("삭제하시겠습니까?");
+
+    if (isDelete) {
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            success: function (data) {
+                if (data.success) {
+                    console.log(data.message);
+                } else {
+                    console.log(data.message);
+                }
+            }
+        })
+    }
+}

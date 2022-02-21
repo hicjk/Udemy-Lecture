@@ -110,35 +110,25 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: HomeController1/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
-            if(id == 0)
-            {
-                return NotFound();
-            }
-
-            var productFromDb = await _db.Products.FindAsync(id);
-
-            if(productFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(productFromDb);
-        }
-
         // POST: HomeController1/Delete/5
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int? id)
         {
             var model = await _db.Products.FindAsync(id);
 
             if(model is null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Error" });
+            }
+
+            if(model.ImageUrl is not null)
+            {
+                var oldImagePath = Path.Combine(_hostEnvironmemt.WebRootPath, model.ImageUrl.TrimStart('\\'));
+
+                if(System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
             }
 
             _db.Products.Remove(model);
@@ -146,7 +136,7 @@ namespace Udemy_ASPNETCORE_MVC_6.Controllers
 
             TempData["success"] = "Product Deleted Successfully";
 
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true, message = "Delete Success" });
         }
 
         #region API Calls
